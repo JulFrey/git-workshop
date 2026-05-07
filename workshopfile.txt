@@ -1,4 +1,103 @@
-Hey! You found me!
+GIT CHEATSHEET
 
-You can mess with me as you like, add text, delete text, whatever...
+-- Setup & Identity --
+git config --global user.name "Your Name"
+git config --global user.email you@example.com
+git config --global core.editor "code --wait"
 
+-- Create / Init --
+git init                      # initialize repo in current directory
+git clone <url>               # clone remote repository
+
+-- Basic workflow --
+git status                    # show staged/untracked/modified files
+git add <file>                # stage a file
+git add -A                    # stage all changes
+git commit -m "msg"           # commit staged changes
+git commit --amend            # amend last commit (only if not pushed)
+
+-- Viewing history --
+git log                       # linear commit history
+git log --oneline --graph --decorate --all
+git show <commit>             # show a single commit
+git diff                      # unstaged changes
+git diff --staged             # staged vs HEAD
+
+-- Branching & merging --
+git branch                    # list branches
+git branch <name>             # create a branch
+git checkout <name>           # switch branch
+git switch <name>             # modern alternative to checkout
+git checkout -b <name>        # create + switch
+git merge <branch>            # merge branch into current
+git rebase <branch>           # rebase current onto branch
+git branch -d <branch>        # delete branch (safe)
+git branch -D <branch>        # force delete
+
+-- Remote --
+git remote -v                 # show remotes
+git remote add origin <url>   # add remote
+git fetch origin              # fetch remote refs
+git pull origin <branch>      # fetch + merge (or use --rebase)
+git push origin <branch>      # push branch to remote
+git push -u origin <branch>   # set upstream and push
+
+-- Undo & recover --
+git restore <file>            # discard changes in working tree (Git >=2.23)
+git restore --staged <file>   # unstage a file
+git reset --soft HEAD~1       # move HEAD back, keep changes staged
+git reset --mixed HEAD~1      # move HEAD back, keep changes unstaged
+git reset --hard HEAD~1       # move HEAD back and discard changes (use with caution)
+git revert <commit>           # create a commit that undoes <commit>
+git reflog                    # view HEAD history (recover lost commits)
+
+-- Stash --
+git stash                     # stash changes
+git stash pop                 # apply & remove latest stash
+git stash apply               # apply latest stash but keep it
+git stash list                # list stashes
+
+-- Tags --
+git tag                       # list tags
+git tag -a v1.0 -m "v1.0"     # annotated tag
+git push origin --tags        # push tags to remote
+
+-- Inspect & find --
+git blame <file>              # who changed each line
+git grep "pattern"            # search in tracked files
+
+-- Config & helpers --
+git config --list             # show settings
+git config --global alias.co checkout
+git config --global alias.st "status -sb"   # example alias
+
+-- Conflict resolution --
+# Resolve conflict markers (<<<<<<<, =======, >>>>>>>), then:
+git add <resolved-file>
+git commit                    # finish merge commit (if needed)
+
+-- Useful combos & tips --
+# Update local main safely:
+# git switch main; git fetch origin; git rebase origin/main
+
+# Create branch from remote:
+# git checkout -b feature origin/main
+
+# Squash last N commits into one interactively:
+# git rebase -i HEAD~N
+
+# Show remote branches:
+# git branch -r
+
+# Show commits not pushed yet:
+# git log origin/HEAD..HEAD --oneline
+
+-- Safety reminders --
+# Avoid force-pushing shared branches. Prefer:
+# git push --force-with-lease
+
+-- Further reading --
+git help <command>
+Pro Git book: https://git-scm.com/book/en/v2
+
+END
